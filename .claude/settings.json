@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "F=\"${CLAUDE_PROJECT_DIR:-/Users/alexlopezdeanda/Documents/Claude/Ecommerce_Fable5}/TTH_Master_Build_Prompt.md\"; if [ -f \"$F\" ]; then jq -Rs '{hookSpecificOutput:{hookEventName:\"SessionStart\",additionalContext:(\"# THE TENNIS HOUSE — MASTER BUILD PROMPT (auto-loaded; session source of truth)\\n\\n\" + .)}}' \"$F\"; else echo '{\"systemMessage\":\"TTH master prompt not found — SessionStart hook injected nothing.\"}'; fi",
+            "timeout": 10,
+            "statusMessage": "Loading TTH master build prompt..."
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,114 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ────────────────────────────────────────────────────────────────
+   Design tokens (§3.2) — single source of truth for color.
+   Accent is a WORKING value (court green) until the brand palette
+   is delivered; replace here and audit components, never inline hex.
+   ──────────────────────────────────────────────────────────────── */
+/* Stored as space-separated RGB channels, NOT hex, so Tailwind can inject an
+   alpha value — `bg-ink/40`, `from-ink/70`, `text-surface/80` all depend on
+   this. Hex equivalents are in the comments. Read one back as
+   `rgb(var(--color-ink))`, or with alpha as `rgb(var(--color-ink) / 0.4)`. */
+:root {
+  --color-surface: 247 246 244;      /* #F7F6F4 */
+  --color-ink: 17 17 16;             /* #111110 */
+  --color-ink-muted: 107 107 101;    /* #6B6B65 */
+  --color-accent: 47 82 51;          /* #2F5233 — placeholder accent, court green */
+  --color-accent-hover: 36 64 42;    /* #24402A */
+  --color-ball: 217 242 79;          /* #D9F24F — tennis-ball highlight, badges + marquee */
+  --color-border: 228 227 223;       /* #E4E3DF */
+  --color-error: 200 50 42;          /* #C8322A */
+  --color-success: 42 122 75;        /* #2A7A4B */
+
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+/* ── Neue Haas Display — self-hosted (§3.3) ── */
+@font-face {
+  font-family: 'NeueHaasDisplay';
+  src: url('/fonts/NeueHaasDisplayLight.woff2') format('woff2'),
+       url('/fonts/NeueHaasDisplayLight.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'NeueHaasDisplay';
+  src: url('/fonts/NeueHaasDisplayRoman.woff2') format('woff2'),
+       url('/fonts/NeueHaasDisplayRoman.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'NeueHaasDisplay';
+  src: url('/fonts/NeueHaasDisplayMediu.woff2') format('woff2'),
+       url('/fonts/NeueHaasDisplayMediu.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-surface text-ink font-sans antialiased;
+  }
+
+  /* Visible focus ring everywhere — never removed without replacement (§10). */
+  :focus-visible {
+    outline: 2px solid rgb(var(--color-ink));
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: rgb(var(--color-ball));
+    color: rgb(var(--color-ink));
+  }
+}
+
+@layer utilities {
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ── Marquee (homepage signature element) ── */
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 28s linear infinite;
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Respect prefers-reduced-motion for ALL animation/transitions (§10). */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .marquee-track {
+    animation: none;
+  }
+}
