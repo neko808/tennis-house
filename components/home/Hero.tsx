@@ -50,7 +50,7 @@ export function Hero() {
         <video
           ref={videoRef}
           className="absolute inset-0 h-full w-full object-cover"
-          src="/video/Running.mp4"
+          src="/video/Running_opt.mp4"
           poster="/video/hero-poster.jpg"
           autoPlay
           muted
